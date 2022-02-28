@@ -1,7 +1,5 @@
 package ru.gb.bulgakov.persist.model;
 
-import ru.gb.bulgakov.persist.model.Role;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -28,6 +26,14 @@ public class User {
     private Set<Role> roles;
 
     public User() {
+    }
+
+    public User(Long id, String username, String password, String email, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
     }
 
     public User(Long id, String username, String password, Set<Role> roles) {
