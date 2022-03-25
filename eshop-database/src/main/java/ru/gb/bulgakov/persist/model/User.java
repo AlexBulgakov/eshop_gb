@@ -20,7 +20,7 @@ public class User {
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "users_roles",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -33,13 +33,6 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.roles = roles;
-    }
-
-    public User(Long id, String username, String password, Set<Role> roles) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
         this.roles = roles;
     }
 
