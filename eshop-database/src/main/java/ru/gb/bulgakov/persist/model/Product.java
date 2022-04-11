@@ -30,6 +30,10 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     @OneToMany(mappedBy = "product",
             orphanRemoval = true,
             cascade = CascadeType.ALL)
@@ -38,13 +42,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description,BigDecimal price, List<Order> orders, Category category) {
+    public Product(Long id, String name, String description,BigDecimal price, List<Order> orders, Category category, Brand brand) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.orders = orders;
         this.category = category;
+        this.brand = brand;
     }
 
 
@@ -86,6 +91,14 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     public BigDecimal getPrice() {
