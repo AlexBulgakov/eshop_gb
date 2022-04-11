@@ -15,7 +15,7 @@ public class Picture {
     @Column(name = "content_type", nullable = false)
     private String contentType;
 
-    @Column(name = "storage_file_name", length = 1024, nullable = false, unique = true)
+    @Column(name = "storage_file_name", nullable = false, unique = true)
     private String storageFileName;
 
     @ManyToOne(optional = false)

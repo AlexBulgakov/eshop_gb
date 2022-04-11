@@ -9,6 +9,10 @@ public class ProductSpecification {
         return (root, query, builder) -> builder.equal(root.get("category").get("id"), categoryId);
     }
 
+    public static Specification<Product> byBrand(long brandId) {
+        return (root, query, builder) -> builder.equal(root.get("brand").get("id"), brandId);
+    }
+
     public static Specification<Product> byName(String pattern) {
         return (root, query, builder) -> builder.like(root.get("name"), "%" + pattern + "%");
     }

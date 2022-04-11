@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.gb.bulgakov.controller.dto.ProductDto;
+import ru.gb.bulgakov.service.BrandService;
 import ru.gb.bulgakov.service.CategoryService;
 import ru.gb.bulgakov.service.ProductService;
 
@@ -24,25 +25,31 @@ public class ProductController {
 
     private final ProductService productService;
 
+    private final BrandService brandService;
+
     private final CategoryService categoryService;
 
     @Autowired
     public ProductController(ProductService productService,
-                             CategoryService categoryService) {
+                             BrandService brandService, CategoryService categoryService) {
         this.productService = productService;
+        this.brandService = brandService;
         this.categoryService = categoryService;
     }
 
     @GetMapping
     public String listPage(
             @RequestParam("categoryId") Optional<Long> categoryId,
+            @RequestParam("brandId") Optional<Long> brandId,
             @RequestParam("namePattern") Optional<String> namePattern,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
             @RequestParam("sortField") Optional<String> sortField, Model model) {
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
         model.addAttribute("products", productService.findAll(
                 categoryId,
+                brandId,
                 namePattern,
                 page.orElse(1) - 1,
                 size.orElse(5),
@@ -61,6 +68,8 @@ public class ProductController {
 
         model.addAttribute("product", new ProductDto());
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
+
         return "product_form";
     }
 
@@ -71,6 +80,7 @@ public class ProductController {
         model.addAttribute("product", productService.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product not found")));
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brands", brandService.findAll());
         return "product_form";
     }
 
@@ -81,6 +91,7 @@ public class ProductController {
         if (result.hasErrors()) {
             logger.error(result.getAllErrors().toString());
             model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("brands", brandService.findAll());
             return "product_form";
         }
         productService.save(product);
